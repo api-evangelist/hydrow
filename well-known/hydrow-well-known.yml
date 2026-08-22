@@ -1,0 +1,106 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live unauthenticated GETs of the /.well-known/ discovery surface on every Hydrow host
+  reachable from apis.yml, from DNS enumeration, and from the production API hosts named by
+  Hydrow's own mobile-app backend domains.
+hit_count: 0
+note: >-
+  Hydrow serves NO /.well-known/ document on any host it controls. Three distinct failure
+  modes were observed and are recorded verbatim below, because they are different facts:
+  (1) hydrow.com and shop.hydrow.com sit behind a Vercel edge policy that answers HTTP 429
+  with a 33KB Astro HTML shell for EVERY path including the control path — a bot challenge,
+  not a document, and not evidence the path is absent; (2) v2.api.prod.hydrow-external.net
+  is a live NestJS service that answers a genuine JSON 404 with the same error envelope as
+  the control path, which IS evidence of absence; (3) v1.api.prod.hydrow-external.net is an
+  AWS API Gateway that answers a blanket 401 on every path including the control, so nothing
+  anonymous can be established there at all. NO WellKnown and NO SecurityTxt pointer is
+  emitted from this file — every probe missed, and a pointer would assert a surface Hydrow
+  does not serve.
+hosts:
+- host: https://v2.api.prod.hydrow-external.net
+  host_note: >-
+    Hydrow's production mobile-app backend (NestJS). hydrow-external.net is registered to
+    Amazon Registrar on AWS nameservers, created 2019-06-04, the same day as Hydrow's
+    hydrow-internal.net — it is Hydrow's own domain, not a third party's.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  soft_404_control:
+    path: /zzz-control-404
+    status: 404
+    bytes: 216
+    note: >-
+      Control returns the same NestJS NotFoundException envelope as every probed path, so the
+      404s above are true negatives rather than a catch-all.
+- host: https://v1.api.prod.hydrow-external.net
+  host_note: AWS API Gateway fronting the legacy v1 mobile-app backend.
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 401
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+    file: null
+  - path: /.well-known/api-catalog
+    status: 401
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 401
+    file: null
+  - path: /.well-known/agent.json
+    status: 401
+    file: null
+  soft_404_control:
+    path: /zzz-control-404
+    status: 401
+    bytes: 26
+    note: >-
+      Control also returns {"message":"Unauthorized"}. The gateway rejects every anonymous
+      request before routing, so these 401s establish nothing about presence or absence.
+- host: https://hydrow.com
+  host_note: >-
+    Marketing site (Astro on Vercel). Answers 429 to every non-browser client on every path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 429
+    file: null
+  soft_404_control:
+    path: /robots.txt
+    status: 429
+    bytes: 33789
+    note: >-
+      robots.txt and llms.txt return the byte-identical 33KB HTML shell as the security.txt
+      probe, confirming a blanket edge policy rather than a per-path answer.
+x-rejected:
+- host: https://greenlight.hydrow-internal.net
+  documents_served:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+  reason: >-
+    These two RFC 8414 / RFC 9728 documents ARE served and DO parse, but they describe the
+    Greenlight platform, which is a product of Shift Engineering (greenlight@shifthq.ai), not
+    of Hydrow. See mcp/hydrow-mcp.yml for the full ownership finding. They are recorded here
+    so a later round does not rediscover them and wrongly credit Hydrow with a well-known
+    surface; they are deliberately NOT counted in hit_count and NOT indexed under hosts[].

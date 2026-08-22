@@ -1,0 +1,74 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live unauthenticated GETs of https://v2.api.prod.hydrow-external.net and
+  https://v1.api.prod.hydrow-external.net, 2026-08-22
+format: proprietary-json
+rfc9457: false
+note: >-
+  Hydrow publishes no error reference, so nothing could be searched. What IS recorded here
+  was directly OBSERVED: two of Hydrow's production backends return structured JSON error
+  envelopes to anonymous callers, and the two envelopes are different from each other. These
+  are the real, verbatim shapes an unauthenticated client receives — not a derivation from a
+  spec, because there is no spec, and not an inference from a third-party client. Neither
+  envelope is RFC 9457 (`application/problem+json`); neither carries a `type` URI, a
+  machine-stable error code namespace, or a documented remediation. Only anonymous responses
+  were probed; no authentication was attempted, so the authenticated error surface is
+  unknown and is deliberately left unrecorded rather than guessed.
+envelopes:
+- host: https://v2.api.prod.hydrow-external.net
+  stack: NestJS
+  content_type: application/json
+  fields:
+  - name: correlationId
+    type: uuid
+    note: >-
+      Per-request trace identifier, returned even on anonymous 404s. This is a genuine
+      request-tracing signal and the single best runtime affordance observed on any Hydrow
+      surface.
+  - name: path
+    type: string
+    note: Echoes the requested path.
+  - name: status
+    type: integer
+    note: Mirrors the HTTP status code.
+  - name: errorName
+    type: string
+    note: NestJS exception class name, e.g. NotFoundException.
+  - name: message
+    type: string|object
+    note: >-
+      Human-readable string on simple errors; on validation failures a third-party client
+      observed in the wild unpacks it as an array of objects carrying a `constraints` map,
+      which is class-validator's default shape. Only the string form was observed directly
+      here, so the object form is noted as reported, not asserted.
+  observed:
+  - http_status: 404
+    error_name: NotFoundException
+    example_path: /openapi.json
+    verbatim_shape: '{"correlationId":"<uuid>","path":"<path>","status":404,"errorName":"NotFoundException","message":"..."}'
+- host: https://v1.api.prod.hydrow-external.net
+  stack: AWS API Gateway
+  content_type: application/json
+  fields:
+  - name: message
+    type: string
+  observed:
+  - http_status: 401
+    example_path: any path, including a control path known not to exist
+    verbatim_shape: '{"message":"Unauthorized"}'
+    note: >-
+      The gateway rejects every anonymous request before routing, so a 401 here carries no
+      information about whether the requested resource exists. An agent cannot distinguish
+      "wrong credentials" from "no such endpoint" on this host.
+problem_types:
+- status: 404
+  name: NotFoundException
+  host: v2.api.prod.hydrow-external.net
+  meaning: No route matches the requested path.
+  remediation_published: false
+- status: 401
+  name: Unauthorized
+  host: v1.api.prod.hydrow-external.net
+  meaning: Request carried no valid credential; returned uniformly ahead of routing.
+  remediation_published: false

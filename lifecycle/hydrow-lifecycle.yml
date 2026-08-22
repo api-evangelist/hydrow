@@ -1,0 +1,58 @@
+generated: '2026-08-22'
+method: probed
+source: https://status.hydrow.com/api/v2/summary.json
+status_page:
+  url: https://status.hydrow.com/
+  http_status: 200
+  provider: Atlassian Statuspage
+  page_id: nxyd6zndsc44
+  machine_readable: true
+  endpoints:
+  - path: /api/v2/summary.json
+    status: 200
+  - path: /api/v2/status.json
+    status: 200
+  - path: /api/v2/components.json
+    status: 200
+  - path: /api/v2/incidents.json
+    status: 200
+  - path: /api/v2/scheduled-maintenances.json
+    status: 200
+  - path: /history.rss
+    status: 200
+  - path: /history.atom
+    status: 200
+  components:
+  - name: Hydrow Service
+    status: operational
+    created: '2019-11-12'
+  - name: hydrow.com website
+    status: operational
+    created: '2019-11-12'
+  - name: shop.hydrow.com
+    status: operational
+    created: '2019-11-13'
+  - name: Support.hydrow.com
+    status: operational
+  note: >-
+    This is Hydrow's single richest public machine-readable surface, and it is the only one.
+    The Statuspage JSON API is fully anonymous and returns real component health. Note that
+    the components are named for CONSUMER properties — the rower service, the marketing site,
+    the shop, the help center — not for an API. Hydrow's status page does not track an API,
+    because Hydrow does not offer one.
+versioning:
+  policy_published: false
+  scheme_observed: >-
+    Host-level major versioning is visible in Hydrow's own backend host names
+    (v1.api.prod.hydrow-external.net, v2.api.prod.hydrow-external.net), so a v1-to-v2
+    migration demonstrably happened. No versioning POLICY is published anywhere public.
+deprecation:
+  policy_published: false
+  sunset_header_support: unknown
+  rfc8594: unknown
+  note: >-
+    No deprecation policy, no Sunset/Deprecation header documentation, and no public
+    changelog. Nothing was found to support a Deprecation pointer, so none is emitted.
+sla:
+  published: false
+  note: Consumer subscription terms only; no API SLA, uptime commitment, or credits published.

@@ -1,8 +1,17 @@
 aid: hydrow
 name: Hydrow
-description: 'Hydrow is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Hydrow (legally True Rowing, Inc., Boston, Massachusetts) is a connected-fitness hardware
+  company that makes the Hydrow indoor rowing machine and the LYQUID strength-training
+  platform, sold with a subscription to a library of live and on-demand athlete-led workouts
+  filmed on real water. Members interact with Hydrow through its rower touchscreens and the
+  Hydrow iOS/Android companion apps, which sync workout summaries outward to Strava and Apple
+  Health. Hydrow operates a real production backend for those apps, but publishes no public
+  developer program, no API reference, no OpenAPI or other machine-readable contract, and no
+  first-party SDK in any package registry; its developer-facing subdomains do not resolve to a
+  service. Its public machine-readable surface is limited to an Atlassian Statuspage.
 url: https://raw.githubusercontent.com/api-evangelist/hydrow/refs/heads/main/apis.yml
+image: https://avatars.githubusercontent.com/u/34552552?v=4
 x-type: company
 x-source: harvest:secondary-market
 x-tier: stub
@@ -12,6 +21,15 @@ created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
+- Connected Fitness
+- Consumer Hardware
+- Rowing
+- Fitness
+- Wellness
+- Health
+- Streaming Media
+- Subscription
+- Internet of Things
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -20,4 +38,59 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/hydrow_stock/
+  url: https://hydrow.com/
+- type: StatusPage
+  url: https://status.hydrow.com/
+- type: Support
+  url: https://support.hydrow.com/s/
+- type: GitHubOrganization
+  url: https://github.com/TrueRowing
+- type: Pricing
+  url: https://support.hydrow.com/s/article/Hydrow-membership-pricing-1651497389211
+- type: Lifecycle
+  url: lifecycle/hydrow-lifecycle.yml
+- type: Packages
+  url: packages/hydrow-packages.yml
+- type: LLMsTxt
+  url: llms/hydrow-llms.txt
+- type: ErrorCatalog
+  url: errors/hydrow-problem-types.yml
+- type: RateLimits
+  url: rate-limits/hydrow-rate-limits.yml
+- type: Plans
+  url: plans/hydrow-plans-pricing.yml
+- type: DomainSecurity
+  url: security/hydrow-domain-security.yml
+- type: Conformance
+  url: conformance/hydrow-conformance.yml
+x-enrichment:
+  date: '2026-08-22'
+  status: minimal
+  artifacts_added: 10
+  pass: local-v1
+x-coverage:
+  state: none
+  reason: no-developer-program
+  detail: >-
+    Hydrow ships software only as an end-user product: contract discovery reached its two
+    real production backends and found nothing published on either — every OpenAPI, Swagger,
+    GraphQL, /.well-known/ and agent-card path on v2.api.prod.hydrow-external.net returns a
+    genuine JSON 404 matching the control path, while v1.api.prod.hydrow-external.net answers
+    a blanket 401 — and its developer-shaped hostnames (api./developer./docs.hydrow.com)
+    exist only as a Vercel wildcard DNS record that never completes a TLS handshake.
+  evidence:
+  - url: https://v2.api.prod.hydrow-external.net/openapi.json
+    status: 404
+  - url: https://v2.api.prod.hydrow-external.net/.well-known/agent-card.json
+    status: 404
+  - url: https://v1.api.prod.hydrow-external.net/api-docs
+    status: 401
+  - url: https://hydrow.com/llms.txt
+    status: 429
+  - url: https://registry.npmjs.org/hydrow
+    status: 404
+  - url: https://github.com/TrueRowing
+    status: 200
+  - url: https://status.hydrow.com/api/v2/summary.json
+    status: 200
+  checked: '2026-08-22'

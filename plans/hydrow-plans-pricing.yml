@@ -1,0 +1,33 @@
+generated: '2026-08-22'
+method: searched
+source: https://support.hydrow.com/s/article/Hydrow-membership-pricing-1651497389211
+source_http_status: 200
+plan_count: 0
+plans: []
+note: >-
+  Hydrow publishes NO API plans, because Hydrow has no API product to price. plan_count is
+  therefore an honest zero rather than an omission. What Hydrow does publish is CONSUMER
+  subscription pricing for its workout content, recorded below as x-consumer-plans so that a
+  reader can see the commercial model without the API rating mistaking a fitness membership
+  for API access. There is no metered tier, no developer free tier, no per-call price, and no
+  quota of any kind attached to an interface.
+x-consumer-plans:
+  currency: USD
+  note: >-
+    Hydrow's own pricing pages live on hydrow.com, which answers HTTP 429 to every
+    non-browser client, so the figures below were read from Hydrow's help center
+    (support.hydrow.com, HTTP 200 verified) rather than from the marketing site.
+  tiers:
+  - name: Hydrow Membership (all-inclusive)
+    price: 50.00
+    period: month
+    note: Also offered annually. Required to use a Hydrow rower's live/on-demand library.
+  - name: Hydrow Membership (annual)
+    price: 600.00
+    period: year
+  - name: Digital Basic
+    price: 19.99
+    period: month
+    note: App-only access to a limited on-demand library for members without a Hydrow machine.
+  api_access_included: false
+  api_access_purchasable: false

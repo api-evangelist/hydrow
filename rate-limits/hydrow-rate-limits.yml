@@ -1,0 +1,31 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live probes of hydrow.com and v2.api.prod.hydrow-external.net, 2026-08-22. No documentation
+  exists to search — Hydrow publishes no API reference.
+limit_count: 0
+rate_limits: []
+note: >-
+  Hydrow documents no API rate limits, because Hydrow documents no API. limit_count is an
+  honest zero, not an unchecked field.
+x-observed:
+- surface: https://hydrow.com/ (marketing site, Vercel edge)
+  observed_status: 429
+  observed_on: every path probed, including /robots.txt, /llms.txt, /.well-known/security.txt,
+    /membership/, /blog/ and /pages/terms-of-service
+  response_headers_exposed: []
+  retry_after: false
+  body: 33KB Astro HTML shell, byte-identical across paths
+  interpretation: >-
+    This is an edge bot/rate policy applied to non-browser clients, NOT a documented API rate
+    limit and NOT evidence the pages are dead — Hydrow's own status page reports
+    "hydrow.com website" as operational. It is recorded because an agent attempting to read
+    hydrow.com will hit exactly this, and nothing in the response tells it what to do: no
+    Retry-After, no RateLimit-* headers, no machine-readable reason.
+- surface: https://v2.api.prod.hydrow-external.net (production mobile-app backend)
+  observed_status: 404
+  response_headers_exposed: []
+  interpretation: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After headers were returned on any anonymous
+    response. Whether limits exist behind authentication cannot be established without
+    credentials, and was not attempted.

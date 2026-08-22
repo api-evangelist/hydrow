@@ -1,0 +1,46 @@
+generated: '2026-08-22'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, api.github.com/orgs/TrueRowing (all probed
+  2026-08-22)
+package_count: 0
+official_count: 0
+packages: []
+note: >-
+  Hydrow publishes NO first-party client library in any package registry. Every candidate
+  name probed returned 404: npm hydrow, npm @hydrow/sdk, npm hydrow-api, PyPI hydrow,
+  RubyGems hydrow. There is no SDK page to derive from either, because there is no developer
+  portal. Consequently NO `SDKs` pointer is wired in apis.yml — sdk_count must read zero,
+  and it does.
+registries_probed:
+- registry: npm
+  names: ['hydrow', '@hydrow/sdk', 'hydrow-api']
+  status: 404
+- registry: pypi
+  names: ['hydrow']
+  status: 404
+- registry: rubygems
+  names: ['hydrow']
+  status: 404
+github_organization:
+  url: https://github.com/TrueRowing
+  http_status: 200
+  org_login: TrueRowing
+  org_display_name: Hydrow
+  org_blog: hydrow.com
+  created: '2017-12-14'
+  public_repos: 38
+  first_party_libraries: 0
+  note: >-
+    Hydrow's GitHub organization is real and is theirs — it is named "Hydrow" and points at
+    hydrow.com — but it is a CONSUMPTION org, not a publication one. 34 of its 38 public
+    repositories are forks of third-party libraries pinned for their own mobile build
+    (react-native-ble-manager, brightcove-player-sdk-ios, Alamofire, Kingfisher, IGListKit,
+    aws-sdk-ios, Instabug, bugsnag-react-native, nestjs-auth, nestjs-bunyan, waypoint). Of
+    the four non-forks, two are version-pinned copies of AWS Amplify/Cognito packages, one is
+    a minimal reproduction of a NestJS bug, and one is a third-party vendor's agent-plugin
+    marketplace (see mcp/hydrow-mcp.yml). Not one is a Hydrow client library, and none
+    describes a Hydrow API. The fork set is, however, a reliable read on Hydrow's own stack:
+    React Native mobile clients, a NestJS backend, AWS Cognito identity, and Brightcove video
+    — which is consistent with the NestJS error envelope observed live on
+    v2.api.prod.hydrow-external.net.

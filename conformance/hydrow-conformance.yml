@@ -1,0 +1,75 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Contract discovery probes of every Hydrow-controlled host, 2026-08-22. No published
+  compliance or standards claim was found to search.
+note: >-
+  Conformance is assessed against what a CONTRACT declares. Hydrow publishes no contract, so
+  every cross-cutting entry below is `conforms: false` on the grounds of absence rather than
+  of a failed check — an important distinction, since a provider with a contract that simply
+  omits a standard is in a different position from one with nothing to omit it from.
+standards:
+- id: openapi
+  conforms: false
+  evidence: >-
+    /openapi.json, /openapi.yaml, /swagger.json, /api-docs, /api-docs-json, /docs, /docs-json
+    and /redoc all return 404 on v2.api.prod.hydrow-external.net with the same envelope as a
+    control path, and 401 on v1.api.prod.hydrow-external.net.
+- id: graphql
+  conforms: false
+  evidence: >-
+    POST {__schema{queryType{name}}} to
+    https://v2.api.prod.hydrow-external.net/graphql returns 404 NotFoundException. No GraphQL
+    surface exists.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface is published or documented.
+- id: mcp
+  conforms: false
+  evidence: >-
+    Hydrow ships no MCP server. The one MCP endpoint on a Hydrow domain belongs to Shift
+    Engineering's Greenlight platform — see mcp/hydrow-mcp.yml.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    v2.api.prod.hydrow-external.net and 401 on v1.api.prod.hydrow-external.net. No card.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Observed error bodies are proprietary JSON with content-type application/json, not
+    application/problem+json. See errors/hydrow-problem-types.yml.
+- id: rfc9116
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 (v2 host) / 429 (hydrow.com). No security.txt.
+- id: oauth2
+  conforms: unknown
+  evidence: >-
+    No OAuth metadata is served on any Hydrow host. Hydrow acts as an OAuth CLIENT of Strava
+    for outbound workout sharing, but that is Strava's authorization server, not Hydrow's,
+    and it is not a conformance claim Hydrow can make about an API it does not publish.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on the v2 host.
+domain_standards:
+  assessed: true
+  market: connected fitness / consumer wearables and equipment
+  declared_in_contract: none
+  note: >-
+    REWARD-ONLY check, and it awards nothing here — correctly, and not as a penalty. The
+    connected-fitness market does have candidate interchange standards a contract could
+    declare (FIT/Garmin activity encoding, Apple HealthKit workout types, the Strava
+    activity model, ANT+/Bluetooth FTMS fitness-machine GATT profiles). Hydrow plainly
+    IMPLEMENTS several of these in its products — its GitHub organization forks
+    react-native-ble-manager and blessed-android-coroutines for BLE, and its apps sync to
+    Strava and Apple Health — but implementing a standard inside a closed product is not the
+    same as declaring one in a contract, and only the latter lets a buyer integrate without a
+    bespoke connector. With no contract there is no location in which a declaration could
+    appear, so nothing is asserted here.
+certifications:
+  published: []
+  trust_center: false
+  note: >-
+    No trust center, no SOC 2 / ISO 27001 / PCI / HIPAA claim, and no compliance page was
+    found. probe-security-programs.py returned vdp=none trust=none. NO `Compliance` and NO
+    `TrustCenter` pointer is emitted.

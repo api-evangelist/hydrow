@@ -1,0 +1,64 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  https://github.com/TrueRowing/greenlight-agent-plugins (probed 2026-08-22) and
+  https://greenlight.hydrow-internal.net/mcp (POST tools/list, probed 2026-08-22)
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+note: >-
+  Hydrow ships NO MCP server of its own — not remote, not stdio — and there is no OpenAPI
+  from which a candidate tool list could be derived, so no candidate tools[] are written here.
+  This file exists to record a REJECTED discovery, because the rejection is the finding.
+x-rejected-surface:
+  endpoint: https://greenlight.hydrow-internal.net/mcp
+  discovered_at: https://github.com/TrueRowing/greenlight-agent-plugins
+  live: true
+  probe:
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    www_authenticate: >-
+      Bearer resource_metadata="https://greenlight.hydrow-internal.net/.well-known/oauth-protected-resource"
+    body_excerpt: >-
+      {"code":"auth.token_invalid","message":"A valid Greenlight OAuth bearer token is required
+      to call /mcp."}
+  oauth_metadata:
+    protected_resource: https://greenlight.hydrow-internal.net/.well-known/oauth-protected-resource
+    authorization_server: https://greenlight.hydrow-internal.net/.well-known/oauth-authorization-server
+    issuer: https://greenlight.hydrow-internal.net
+    scopes_supported:
+    - greenlight
+    grant_types_supported:
+    - authorization_code
+    - refresh_token
+    dynamic_client_registration: true
+  ownership_verdict: not-hydrow
+  ownership_reasoning: >-
+    STEP 0c ownership check FAILS, and it fails on the strongest signals rather than on the
+    fetch URL. The endpoint is a live, OAuth-gated MCP server on hydrow-internal.net, a domain
+    Hydrow demonstrably owns, and the plugin repository sits in Hydrow's own GitHub
+    organization (TrueRowing) — every location signal points at Hydrow. But the artifact's
+    own self-description does not: .claude-plugin/marketplace.json names the owner as "Shift
+    Engineering" with the contact greenlight@shifthq.ai; plugin.json names the same author;
+    and every SKILL.md carries "metadata.author: Shift Engineering". Greenlight is described
+    by its own manifests as "the governed platform for building and deploying enterprise
+    internal apps", i.e. Shift Engineering's product, of which Hydrow is a TENANT. The host
+    name says so as plainly as it can — hydrow-INTERNAL.net, an internal-app builder for
+    Hydrow's own staff, not a product Hydrow sells or an agent surface Hydrow offers the
+    public. Crediting Hydrow with this MCP server would be the Leadpages/htmlpub error in
+    its exact original shape: a real, parsing, live contract on the provider's own domain
+    that belongs to a different company. No MCPServer pointer is wired in apis.yml, and no
+    ToolCrosswalk is emitted, because Hydrow has neither an MCP server nor an OpenAPI to
+    cross-walk.
+  vendor:
+    name: Shift Engineering
+    product: Greenlight
+    contact: greenlight@shifthq.ai
+    site: https://shifthq.ai/
+    site_http_status: 200
