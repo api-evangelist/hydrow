@@ -11,6 +11,17 @@ description: >-
   first-party SDK in any package registry; its developer-facing subdomains do not resolve to a
   service. Its public machine-readable surface is limited to an Atlassian Statuspage.
 url: https://raw.githubusercontent.com/api-evangelist/hydrow/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://avatars.githubusercontent.com/u/34552552?v=4
 x-type: company
 x-source: harvest:secondary-market
